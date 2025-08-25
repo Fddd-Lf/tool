@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       # 5️⃣ 调试构建文件
-      - name: Check build files
+      - name: Debug build output
         run: |
           echo "当前目录: $(pwd)"
           ls -la
@@ -37,14 +37,14 @@ jobs:
           ls -la package.json
           ls -la ecosystem.config.js
 
-      # 6️⃣ 上传构建产物到服务器
+      # 6️⃣ 上传构建产物到服务器（使用仓库根目录路径）
       - name: Upload to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          source: ".next package.json ecosystem.config.js"
+          source: "${{ github.workspace }}/.next ${{ github.workspace }}/package.json ${{ github.workspace }}/ecosystem.config.js"
           target: "/var/www/tool"
           overwrite: true
           debug: true
@@ -58,5 +58,5 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd /var/www/tool
-            ls -la   # 调试查看文件是否存在
+            ls -la   # 查看上传文件
             pm2 restart next-app || pm2 start ecosystem.config.js
