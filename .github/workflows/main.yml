@@ -44,10 +44,11 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          source: "${{ github.workspace }}/.next ${{ github.workspace }}/package.json ${{ github.workspace }}/ecosystem.config.js"
+          source: ".next package.json ecosystem.config.js"
           target: "/var/www/tool"
           overwrite: true
           debug: true
+          working-directory: "/home/runner/work/tool/tool"
 
       # 7️⃣ 重启或启动 PM2 服务
       - name: Restart PM2
