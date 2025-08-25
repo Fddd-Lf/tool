@@ -15,8 +15,7 @@ export default function Home() {
         />
         <ol>
           <li>
-            Get started by editing{" "}
-            <code>src/app/page.2312321312312321321312</code>.
+            Get started by editing <code>src/app/page.十大大苏打实打实</code>.
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
