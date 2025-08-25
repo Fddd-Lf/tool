@@ -44,7 +44,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          source: "tool/.next,tool/package.json,tool/ecosystem.config.js"
+          source: "./tool/.next,./tool/package.json,./tool/ecosystem.config.js"
           target: "/var/www/tool"
           overwrite: true
           debug: true
