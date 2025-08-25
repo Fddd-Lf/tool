@@ -41,7 +41,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }} # 服务器 IP（GitHub Secrets）
           username: ${{ secrets.SERVER_USER }} # 服务器用户名
           password: ${{ secrets.SERVER_PASSWORD }} # 服务器密码/令牌
-          source: ".next,package.json,ecosystem.config.js" # 要上传的文件和目录
+          source: ".next package.json ./config/ecosystem.config.js" # 要上传的文件和目录
           target: "/var/www/tool" # 服务器目标路径
 
       # 6️⃣ 重启或启动 PM2 服务
