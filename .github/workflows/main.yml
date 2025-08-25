@@ -28,6 +28,12 @@ jobs:
       - name: Build project
         run: npm run build # SSR 模式生成 .next 目录，SSG 可结合 next export
 
+      # ✅ 调试 Secrets
+      - name: Debug Secrets
+        run: |
+          echo "SERVER_USER: ${{ secrets.SERVER_USER }}"
+          echo "SERVER_IP: ${{ secrets.SERVER_IP }}"
+
       # 5️⃣ 上传构建产物到服务器
       - name: Upload to server
         uses: appleboy/scp-action@v0.1.3
