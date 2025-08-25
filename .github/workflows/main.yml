@@ -24,20 +24,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ 构建项目
+      # 4️⃣ 构建 Next.js 项目
       - name: Build project
         run: npm run build
 
-      # 5️⃣ 调试构建文件
+      # 5️⃣ 确认构建产物
       - name: Debug build output
         run: |
           echo "当前目录: $(pwd)"
           ls -la
-          ls -la .next
-          ls -la package.json
-          ls -la ecosystem.config.js
+          ls -la tool/      # 如果你的项目在 tool/ 子目录
+          ls -la tool/.next
+          ls -la tool/package.json
+          ls -la tool/ecosystem.config.js
 
-      # 6️⃣ 上传构建产物到服务器（使用仓库根目录路径）
+      # 6️⃣ 上传构建产物到服务器
       - name: Upload to server
         uses: appleboy/scp-action@v0.1.7
         with:
