@@ -3,32 +3,28 @@ name: Deploy NextTool
 on:
   push:
     branches:
-      - main # main 分支 push 时触发
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 拉取代码
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ 安装 Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      # 3️⃣ 安装依赖
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ 构建 Next.js 项目
       - name: Build project
         run: npm run build
 
-      # 5️⃣ 调试构建文件，确认路径
+      # 调试步骤：确认文件路径
       - name: Debug build output
         run: |
           echo "当前目录: $(pwd)"
@@ -37,19 +33,18 @@ jobs:
           ls -la package.json
           ls -la ecosystem.config.js
 
-      # 6️⃣ 上传构建产物到服务器
+      # 修改后的 SCP 步骤
       - name: Upload to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          source: "./tool/.next,./tool/package.json,./tool/ecosystem.config.js"
+          source: "${{ github.workspace }}/.next,${{ github.workspace }}/package.json,${{ github.workspace }}/ecosystem.config.js"
           target: "/var/www/tool"
           overwrite: true
           debug: true
 
-      # 7️⃣ 重启或启动 PM2 服务
       - name: Restart PM2
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -58,5 +53,5 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd /var/www/tool
-            ls -la   # 查看上传文件
+            ls -la
             pm2 restart next-app || pm2 start ecosystem.config.js
