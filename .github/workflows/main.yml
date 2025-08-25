@@ -44,7 +44,7 @@ jobs:
           target: "/var/www/tool"
           overwrite: true
           debug: true
-          trip_components: 1 # 去掉 .next 前的多余目录层级
+          trip_components: 3 # 去掉 .next 前的多余目录层级
 
       - name: Restart PM2
         uses: appleboy/ssh-action@v0.1.7
