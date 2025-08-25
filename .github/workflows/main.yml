@@ -35,7 +35,7 @@ jobs:
 
       # 修改后的 SCP 步骤
       - name: Upload to server
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
@@ -47,7 +47,7 @@ jobs:
           strip_components: 3
 
       - name: Restart PM2
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
