@@ -48,7 +48,6 @@ jobs:
           target: "/var/www/tool"
           overwrite: true
           debug: true
-          working-directory: "/home/runner/work/tool/tool"
 
       # 7️⃣ 重启或启动 PM2 服务
       - name: Restart PM2
