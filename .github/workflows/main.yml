@@ -41,13 +41,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           source: |
-            .next
-            package.json
-            ecosystem.config.js
+            .
           target: "/var/www/tool"
           overwrite: true
           debug: true
-          strip_components: 3
+        strip_components: 3
 
       - name: Restart PM2
         uses: appleboy/scp-action@master
