@@ -47,10 +47,7 @@ jobs:
           target: "/var/www/tool"
           overwrite: true
           debug: true
-          source: |
-            .next
-            package.json
-            ecosystem.config.js
+          source: ".next package.json ecosystem.config.js"
 
       # 7. 重启 PM2（用 ssh-action）
       - name: Restart PM2
