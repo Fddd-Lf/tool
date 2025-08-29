@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <img src="/cat.jpg" alt="" />
+        <img src="/cat.jpg" alt="" style={{ width: "20%" }} />
         <Image
           className={styles.logo}
           src="/next.svg"
