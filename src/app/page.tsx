@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image src="/cat.jpg" alt="Vercel logo" width={300}></Image>
+        <img src="/cat.jpg" alt="" />
         <Image
           className={styles.logo}
           src="/next.svg"
