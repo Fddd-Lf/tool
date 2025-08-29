@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. 构建
+      # 4. 构建 Next.js
       - name: Build project
         run: npm run build
 
@@ -33,24 +33,30 @@ jobs:
         run: |
           echo "当前目录: $(pwd)"
           ls -la
-          ls -la .next || echo ".next 不存在"
+          test -d .next && echo ".next 存在" || echo ".next 不存在"
           test -f package.json && echo "package.json 存在" || echo "package.json 不存在"
           test -f ecosystem.config.js && echo "ecosystem.config.js 存在" || echo "ecosystem.config.js 不存在"
 
-      # 6. 上传构建结果 + 配置
-      - name: Upload to server
+      # 6. 打包需要的文件
+      - name: Package build files
+        run: |
+          tar -czf deploy.tar.gz .next package.json ecosystem.config.js
+          ls -la deploy.tar.gz
+
+      # 7. 上传 tar 包到服务器
+      - name: Upload tarball to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          source: "deploy.tar.gz"
           target: "/var/www/tool"
           overwrite: true
           debug: true
-          source: ".next package.json ecosystem.config.js"
 
-      # 7. 重启 PM2（用 ssh-action）
-      - name: Restart PM2
+      # 8. 在服务器解压并部署
+      - name: Deploy on server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -58,5 +64,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd /var/www/tool
+            tar -xzf deploy.tar.gz
+            rm deploy.tar.gz
             npm install --production
             pm2 restart next-app || pm2 start ecosystem.config.js
